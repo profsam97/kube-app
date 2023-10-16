@@ -15,7 +15,7 @@ spec:
         app: vpromc
     spec:
       containers:
-        - name:  vpromq01
+        - name:  vpromc
           image: memcached
           ports:
             - containerPort: 11211
