@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vprodb # very important, this is what we use in our app, when we try to access our db, also the port number-which is below
+spec:
+  ports:
+    - port: 3306 # can be any number, but must match the port specified in our app
+      targetPort: vprodb-port
+      protocol: TCP
+  type: ClusterIP
+  selector:
+    app: vprodb # must match the label defined in our app.
