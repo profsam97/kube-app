@@ -31,8 +31,8 @@ spec:
                 secretKeyRef:
                   key: db-pass
                   name: app-secret
-      nodeSelector:
-        zone: us-east-2a  # to indicate which zone we want our pods to run, should be same with the zone our volume is.
+#      nodeSelector:
+#        zone: us-east-2a  # to indicate which zone we want our pods to run, should be same with the zone our volume is.
       volumes:
         - name: vpro-db-data
           awsElasticBlockStore:
