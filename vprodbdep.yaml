@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vprodb
+  labels:
+    app: vprodb
+spec:
+  selector:
+    matchLabels:
+      app: vprodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vprodb
+    spec:
+      containers:
+        - name: vprodb
+          image: vprofile/vprofiledb:v1
+          args:
+            - "--ignore-db-dir=lost+found"
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: vpro-db-data
+          ports:
+            - containerPort: 3306
+              name: vprodb-port
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: db-pass
+                  name: app-secret
+      nodeSelector:
+        zone: us-east-2a  # to indicate which zone we want our pods to run, should be same with the zone our volume is.
+      volumes:
+        - name: vpro-db-data
+          awsElasticBlockStore:
+            volumeID: xxxxxxxxxxxxxxxxxxx
+            fsType: ext4
